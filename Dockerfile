@@ -1,25 +1,24 @@
 FROM ubuntu:precise
-RUN apt-get -qq update
-RUN apt-get -y install git \
-                   python \
-                   python-dev \
-                   python-pip \
-                   python-setuptools \
-                   build-essential \
-                   gcc \
-                   g++ \
-                   libxml2-dev \
-                   libxslt-dev \
-                   lib32z1-dev \
-                   libffi-dev \
-                   libmysqlclient-dev \
-                   pkg-config \
-                   python-lxml \
-                   curl \
-                   tnef \
-                   stow \
-                   lua5.2 \
-                   liblua5.2-dev
+RUN apt-get -qq update && apt-get -y install git \
+                                        python \
+                                        python-dev \
+                                        python-pip \
+                                        python-setuptools \
+                                        build-essential \
+                                        gcc \
+                                        g++ \
+                                        libxml2-dev \
+                                        libxslt-dev \
+                                        lib32z1-dev \
+                                        libffi-dev \
+                                        libmysqlclient-dev \
+                                        pkg-config \
+                                        python-lxml \
+                                        curl \
+                                        tnef \
+                                        stow \
+                                        lua5.2 \
+                                        liblua5.2-dev
 
 RUN cd $(mktemp -d) && \
     curl -LO https://github.com/jedisct1/libsodium/releases/download/1.0.0/libsodium-1.0.0.tar.gz && \
