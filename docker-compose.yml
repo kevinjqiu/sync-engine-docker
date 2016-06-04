@@ -1,0 +1,48 @@
+version: "2"
+services:
+    engine:
+        build: .
+        image: kevinjqiu/nylas-sync-engine
+        links:
+            - redis:redis
+            - db1:db1
+            - db2:db2
+        #ports:
+        #    - "5555:5555"
+        #    - "8000:8000"
+        #    - "9200:9200"
+        #    - "16384:16384"
+        volumes:
+            - ./sync-engine:/app
+            #- ./data:/var/lib/inboxapp
+            - ./config:/etc/inboxapp
+        #command: sh -c "bin/create-db && bin/inbox-start"
+        command: bin/inbox-start
+        environment:
+            FIRST_RUN: 0
+    api:
+        build: .
+        image: kevinjqiu/nylas-sync-engine
+        links:
+            - redis:redis
+            - db1:db1
+            - db2:db2
+        ports:
+            - "5555:5555"
+        volumes:
+            - ./sync-engine:/app
+            #- ./data:/var/lib/inboxapp
+            - ./config:/etc/inboxapp
+        command: bin/inbox-api
+    redis:
+        image: redis
+    db1:
+        image: mysql
+        environment:
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: root
+    db2:
+        image: mysql
+        environment:
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: root
