@@ -36,7 +36,7 @@ RUN cd $(mktemp -d) && \
     rm -fr libsodium-1.0.0 libsodium-1.0.0.tar.gz
 
 RUN pip install 'pip==7.1.2' 'setuptools>=5.3' && hash pip && pip install 'pip==7.1.2' 'setuptools>5.3' && pip install tox
-COPY sync-engine /app
+RUN git clone https://github.com/nylas/sync-engine.git /app
 WORKDIR /app
 RUN SODIUM_INSTALL=system pip install -r requirements.txt -q && pip install -e .
 RUN mkdir -p /etc/inboxapp && \
