@@ -7,19 +7,13 @@ services:
             - redis:redis
             - db1:db1
             - db2:db2
-        #ports:
-        #    - "5555:5555"
-        #    - "8000:8000"
-        #    - "9200:9200"
-        #    - "16384:16384"
         volumes:
             - ./sync-engine:/app
             #- ./data:/var/lib/inboxapp
             - ./config:/etc/inboxapp
-        #command: sh -c "bin/create-db && bin/inbox-start"
         command: bin/inbox-start
         environment:
-            FIRST_RUN: 0
+            FIRST_RUN: 0  # need to run bin/create-db if FIRST_RUN
     api:
         build: .
         image: kevinjqiu/nylas-sync-engine
