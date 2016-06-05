@@ -1,3 +1,4 @@
 sync-engine/
 config/config.json
 config/secrets.yml
+data/
