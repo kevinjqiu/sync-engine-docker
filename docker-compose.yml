@@ -9,8 +9,9 @@ services:
             - db2:db2
         volumes:
             - ./sync-engine:/app
-            #- ./data:/var/lib/inboxapp
+            - ./data/inboxapp:/var/lib/inboxapp
             - ./config:/etc/inboxapp
+        #command: sh -c "bin/create-db && bin/inbox-start"
         command: bin/inbox-start
         environment:
             FIRST_RUN: 0  # need to run bin/create-db if FIRST_RUN
@@ -25,18 +26,22 @@ services:
             - "5555:5555"
         volumes:
             - ./sync-engine:/app
-            #- ./data:/var/lib/inboxapp
+            - ./data/inboxapp:/var/lib/inboxapp
             - ./config:/etc/inboxapp
         command: bin/inbox-api
     redis:
         image: redis
     db1:
         image: mysql
+        volumes:
+            - ./data/db1:/var/lib/mysql
         environment:
             MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: root
     db2:
         image: mysql
+        volumes:
+            - ./data/db2:/var/lib/mysql
         environment:
             MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: root
