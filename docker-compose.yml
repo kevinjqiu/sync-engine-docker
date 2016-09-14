@@ -1,4 +1,9 @@
 version: "2"
+volumes:
+    db1_data:
+        external: false
+    db2_data:
+        external: false
 services:
     engine:
         build: .
@@ -34,14 +39,14 @@ services:
     db1:
         image: mysql
         volumes:
-            - ./data/db1:/var/lib/mysql
+            - db1_data:/var/lib/mysql
         environment:
             MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: root
     db2:
         image: mysql
         volumes:
-            - ./data/db2:/var/lib/mysql
+            - db1_data:/var/lib/mysql
         environment:
             MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: root
