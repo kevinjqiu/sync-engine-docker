@@ -6,7 +6,6 @@ volumes:
         external: false
 services:
     engine:
-        build: .
         image: kevinjqiu/nylas-sync-engine
         links:
             - redis:redis
@@ -21,7 +20,6 @@ services:
         environment:
             FIRST_RUN: 0  # need to run bin/create-db if FIRST_RUN
     api:
-        build: .
         image: kevinjqiu/nylas-sync-engine
         links:
             - redis:redis
