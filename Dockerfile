@@ -18,7 +18,8 @@ RUN apt-get -qq update && apt-get -y install git \
                                         tnef \
                                         stow \
                                         lua5.2 \
-                                        liblua5.2-dev
+                                        liblua5.2-dev \
+                                        netcat
 
 RUN cd $(mktemp -d) && \
     curl -LO https://github.com/jedisct1/libsodium/releases/download/1.0.0/libsodium-1.0.0.tar.gz && \
@@ -44,4 +45,5 @@ RUN mkdir -p /etc/inboxapp && \
 RUN useradd -m inboxapp && chown -R inboxapp:inboxapp /etc/inboxapp && mkdir /var/lib/inboxapp && chown -R inboxapp:inboxapp /var/lib/inboxapp
 USER inboxapp
 VOLUME /app /var/lib/inboxapp /etc/inboxapp
+COPY wait-for-mysql.sh /bin/wait-for-mysql.sh
 CMD bin/inbox-start

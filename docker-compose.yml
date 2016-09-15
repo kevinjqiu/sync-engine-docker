@@ -1,50 +1,40 @@
 version: "2"
 volumes:
-    db1_data:
+    db_data:
         external: false
-    db2_data:
+    inbox_data:
         external: false
 services:
     engine:
         image: kevinjqiu/nylas-sync-engine
         links:
             - redis:redis
-            - db1:db1
-            - db2:db2
+            - db:db
         volumes:
             - ./sync-engine:/app
-            - ./data/inboxapp:/var/lib/inboxapp
+            - inbox_data:/var/lib/inboxapp
             - ./config:/etc/inboxapp
-        #command: sh -c "bin/create-db && bin/inbox-start"
-        command: bin/inbox-start
-        environment:
-            FIRST_RUN: 0  # need to run bin/create-db if FIRST_RUN
+        command: sh -c "/bin/wait-for-mysql.sh && bin/create-db || true && bin/inbox-start"
     api:
         image: kevinjqiu/nylas-sync-engine
         links:
             - redis:redis
-            - db1:db1
-            - db2:db2
+            - db:db
+        depends_on:
+            - engine
         ports:
             - "5555:5555"
         volumes:
             - ./sync-engine:/app
-            - ./data/inboxapp:/var/lib/inboxapp
+            - inbox_data:/var/lib/inboxapp
             - ./config:/etc/inboxapp
         command: bin/inbox-api
     redis:
         image: redis
-    db1:
+    db:
         image: mysql
         volumes:
-            - db1_data:/var/lib/mysql
-        environment:
-            MYSQL_USER: root
-            MYSQL_ROOT_PASSWORD: root
-    db2:
-        image: mysql
-        volumes:
-            - db1_data:/var/lib/mysql
+            - db_data:/var/lib/mysql
         environment:
             MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: root
