@@ -1,2 +1,2 @@
 build:
-	docker build -t kevinjqiu/n1-sync-engine .
+	docker build -t kevinjqiu/nylas-sync-engine .
